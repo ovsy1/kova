@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Алекс Морозов — Веб-разработчик</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F2EC;
+    --muted: #7A7468;
+    --accent: #C8A96E;
+    --line: rgba(13,13,13,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ──── NAV ──── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(245,242,236,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ──── HERO ──── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 3rem 4rem;
+    border-right: 1px solid var(--line);
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--accent);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 38ch;
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.25s, color 0.25s;
+  }
+  .hero-cta:hover { background: var(--accent); }
+  .hero-cta-arrow { transition: transform 0.25s; }
+  .hero-cta:hover .hero-cta-arrow { transform: translateX(4px); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 8rem 3rem 4rem;
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero-portrait {
+    width: 100%; max-width: 340px;
+    aspect-ratio: 3/4;
+    background: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-portrait-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #2a2a2a 0%, #111 60%, #1e1a14 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: rgba(200,169,110,0.15);
+    letter-spacing: -0.05em;
+  }
+  .hero-portrait-caption {
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    color: rgba(245,242,236,0.5);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hero-numbers {
+    position: absolute; bottom: 4rem; right: 3rem;
+    display: flex; flex-direction: column; gap: 2rem; align-items: flex-end;
+  }
+  .hero-stat { text-align: right; }
+  .hero-stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .hero-stat-l {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
+    margin-top: 0.25rem;
+  }
+
+  /* ──── MARQUEE ──── */
+  .marquee-wrap {
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    padding: 1rem 0;
+    background: var(--accent);
+  }
+  .marquee-inner {
+    display: flex; gap: 3rem;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ink); opacity: 0.4; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ──── WORKS ──── */
+  section { padding: 6rem 3rem; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 4rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+  }
+  .section-link {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  .work-card {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .work-card:nth-child(3n) { border-right: none; }
+  .work-card:nth-child(n+4) { border-bottom: none; }
+  .work-card:hover { background: var(--ink); }
+  .work-card:hover .work-title { color: var(--paper); }
+  .work-card:hover .work-tag { color: var(--muted); border-color: rgba(245,242,236,0.15); }
+  .work-card:hover .work-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+  .work-thumb {
+    width: 100%; aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .work-thumb-inner {
+    width: 100%; height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .work-card:hover .work-thumb-inner { transform: scale(1.05); }
+
+  .work-thumb-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+  .work-thumb-2 { background: linear-gradient(135deg, #2d1b35 0%, #4a1942 50%, #7b2d8b 100%); }
+  .work-thumb-3 { background: linear-gradient(135deg, #1a2f1c 0%, #1e4020 50%, #2d6132 100%); }
+  .work-thumb-4 { background: linear-gradient(135deg, #2f2410 0%, #4a3818 50%, #7a5c28 100%); }
+  .work-thumb-5 { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #444 100%); }
+  .work-thumb-6 { background: linear-gradient(135deg, #1f1030 0%, #2e1843 50%, #4b2872 100%); }
+
+  .work-thumb-pattern {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    opacity: 0.3;
+    color: white;
+  }
+
+  .work-info { padding: 1.5rem; }
+  .work-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem; }
+  .work-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+  .work-arrow {
+    font-size: 1.1rem;
+    color: var(--muted);
+    transition: color 0.3s, transform 0.3s;
+  }
+  .work-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0.2rem 0.6rem;
+    transition: color 0.3s, border-color 0.3s;
+    margin-top: 0.5rem;
+  }
+
+  /* ──── SERVICES ──── */
+  .services-section { background: var(--ink); color: var(--paper); }
+  .services-section .section-title { color: var(--paper); }
+  .services-section .section-label { color: rgba(245,242,236,0.4); }
+  .services-section .section-header { border-bottom-color: rgba(245,242,236,0.1); }
+
+  .services-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .service-item {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(245,242,236,0.1);
+    display: grid; grid-template-columns: 3rem 1fr auto;
+    gap: 1.5rem; align-items: center;
+    transition: background 0.25s;
+    padding-left: 1rem; padding-right: 1rem;
+  }
+  .service-item:nth-child(odd) { border-right: 1px solid rgba(245,242,236,0.1); }
+  .service-item:nth-last-child(-n+2) { border-bottom: none; }
+  .service-item:hover { background: rgba(245,242,236,0.04); }
+
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+  .service-desc {
+    font-size: 0.78rem;
+    color: rgba(245,242,236,0.45);
+    margin-top: 0.3rem;
+    line-height: 1.5;
+  }
+  .service-price {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ──── ABOUT ──── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-sidebar { position: sticky; top: 8rem; }
+  .about-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+  .about-portrait {
+    aspect-ratio: 3/4;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: rgba(200,169,110,0.2);
+    margin-bottom: 1.5rem;
+  }
+  .about-skills { list-style: none; }
+  .about-skill {
+    display: flex; justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.82rem;
+  }
+  .about-skill-name { color: var(--muted); }
+  .about-skill-val { font-weight: 500; }
+
+  .about-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+  }
+  .about-content p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    max-width: 55ch;
+  }
+  .about-content blockquote {
+    margin: 3rem 0;
+    padding: 2rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(200,169,110,0.06);
+  }
+  .about-content blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ──── CONTACT ──── */
+  .contact-section {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 8rem 3rem;
+  }
+  .contact-pre {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
+    margin-bottom: 1.5rem;
+  }
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .contact-title em { font-style: italic; color: var(--accent); }
+  .contact-sub {
+    color: rgba(245,242,236,0.5);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+  }
+  .contact-email {
+    display: inline-block;
+    font-size: 1.1rem;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,169,110,0.5);
+    padding-bottom: 0.3rem;
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .contact-divider {
+    width: 1px; height: 4rem;
+    background: rgba(245,242,236,0.15);
+    margin: 3rem auto;
+  }
+  .contact-socials { display: flex; justify-content: center; gap: 2rem; }
+  .contact-social {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.4);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .contact-social:hover { color: var(--accent); }
+
+  /* ──── FOOTER ──── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(245,242,236,0.08);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    color: rgba(245,242,236,0.3);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* ──── ANIMATIONS ──── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.8s ease 0.1s both; }
+  .hero-title { animation: fadeUp 0.8s ease 0.25s both; }
+  .hero-desc { animation: fadeUp 0.8s ease 0.4s both; }
+  .hero-cta { animation: fadeUp 0.8s ease 0.55s both; }
+  .hero-portrait { animation: fadeUp 0.8s ease 0.3s both; }
+  .hero-numbers { animation: fadeUp 0.8s ease 0.5s both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Алекс Морозов</div>
+  <ul class="nav-links">
+    <li><a href="#works">Работы</a></li>
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#about">Обо мне</a></li>
+    <li><a href="#contact">Контакт</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Веб-разработчик & Дизайнер</div>
+    <h1 class="hero-title">
+      Создаю сайты,<br>
+      которые <em>работают</em>
+    </h1>
+    <p class="hero-desc">
+      Фрилансер с 7-летним опытом. Разрабатываю сайты под ключ — от концепции до запуска. Работаю с бизнесом любого масштаба.
+    </p>
+    <a href="#works" class="hero-cta">
+      Смотреть работы
+      <span class="hero-cta-arrow">→</span>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-portrait">
+      <div class="hero-portrait-inner">АМ</div>
+      <div class="hero-portrait-caption">Фото / 2024</div>
+    </div>
+    <div class="hero-numbers">
+      <div class="hero-stat">
+        <div class="hero-stat-n">84+</div>
+        <div class="hero-stat-l">Проектов</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-n">7</div>
+        <div class="hero-stat-l">Лет опыта</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="marquee-item">React <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Next.js <span class="marquee-dot"></span></span>
+    <span class="marquee-item">TypeScript <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Figma <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Node.js <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Tailwind CSS <span class="marquee-dot"></span></span>
+    <span class="marquee-item">PostgreSQL <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Framer Motion <span class="marquee-dot"></span></span>
+    <span class="marquee-item">React <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Next.js <span class="marquee-dot"></span></span>
+    <span class="marquee-item">TypeScript <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Figma <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Node.js <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Tailwind CSS <span class="marquee-dot"></span></span>
+    <span class="marquee-item">PostgreSQL <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Framer Motion <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Избранное</div>
+      <h2 class="section-title">Последние работы</h2>
+    </div>
+    <a href="#" class="section-link">Все работы →</a>
+  </div>
+  <div class="works-grid">
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-1"><div class="work-thumb-pattern">BESPOKE STUDIO</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">Bespoke Studio</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Лендинг</span>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-2"><div class="work-thumb-pattern">VIOLA BOUTIQUE</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">Viola Boutique</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Интернет-магазин</span>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-3"><div class="work-thumb-pattern">NOVA FINANCE</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">Nova Finance</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Корпоративный</span>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-4"><div class="work-thumb-pattern">ARTEM COFFEE</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">Artem Coffee</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Ресторанный</span>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-5"><div class="work-thumb-pattern">ARCH BUREAU</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">Arch Bureau</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Портфолио</span>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-thumb"><div class="work-thumb-inner work-thumb-6"><div class="work-thumb-pattern">MEDTECH APP</div></div></div>
+      <div class="work-info">
+        <div class="work-top"><div class="work-title">MedTech App</div><span class="work-arrow">↗</span></div>
+        <span class="work-tag">Веб-приложение</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Что я делаю</div>
+      <h2 class="section-title">Услуги</h2>
+    </div>
+  </div>
+  <div class="services-list">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div>
+        <div class="service-name">Разработка лендинга</div>
+        <div class="service-desc">Продающая страница под ключ</div>
+      </div>
+      <div class="service-price">от 40 000 ₽</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div>
+        <div class="service-name">Корпоративный сайт</div>
+        <div class="service-desc">Многостраничный с CMS</div>
+      </div>
+      <div class="service-price">от 80 000 ₽</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div>
+        <div class="service-name">Интернет-магазин</div>
+        <div class="service-desc">Full-stack e-commerce решение</div>
+      </div>
+      <div class="service-price">от 120 000 ₽</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div>
+        <div class="service-name">Веб-приложение</div>
+        <div class="service-desc">SPA с авторизацией и API</div>
+      </div>
+      <div class="service-price">от 150 000 ₽</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-sidebar">
+      <div class="about-label">Обо мне</div>
+      <div class="about-portrait">АМ</div>
+      <ul class="about-skills">
+        <li class="about-skill"><span class="about-skill-name">Frontend</span><span class="about-skill-val">React / Next.js</span></li>
+        <li class="about-skill"><span class="about-skill-name">Design</span><span class="about-skill-val">Figma / UI/UX</span></li>
+        <li class="about-skill"><span class="about-skill-name">Backend</span><span class="about-skill-val">Node.js / API</span></li>
+        <li class="about-skill"><span class="about-skill-name">Языки</span><span class="about-skill-val">RU / EN</span></li>
+      </ul>
+    </div>
+    <div class="about-content">
+      <h2>Создаю цифровые продукты с вниманием к деталям</h2>
+      <p>Я — независимый веб-разработчик из Москвы. Специализируюсь на создании сайтов, которые не только хорошо выглядят, но и решают реальные бизнес-задачи.</p>
+      <p>Начинал с простых лендингов, теперь делаю сложные веб-приложения с нестандартными дизайнами. Работал с компаниями из сфер e-commerce, финансов, HoReCa и стартап-среды.</p>
+      <blockquote>
+        <p>«Хороший сайт — это не про красивые кнопки. Это про доверие, скорость и конверсию.»</p>
+      </blockquote>
+      <p>Каждый проект начинаю с погружения в бизнес клиента. Люблю сложные задачи и нестандартные решения.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <p class="contact-pre">Готов к новым проектам</p>
+  <h2 class="contact-title">Давайте<br>поговорим <em>о вашем</em><br>проекте</h2>
+  <p class="contact-sub">Напишите — отвечаю в течение дня</p>
+  <a href="mailto:alex@morozov.dev" class="contact-email">alex@morozov.dev</a>
+  <div class="contact-divider"></div>
+  <div class="contact-socials">
+    <a href="#" class="contact-social">Telegram</a>
+    <a href="#" class="contact-social">Behance</a>
+    <a href="#" class="contact-social">GitHub</a>
+    <a href="#" class="contact-social">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2024 Алекс Морозов</span>
+  <span>Разработка & Дизайн</span>
+</footer>
+
+</body>
+</html>
